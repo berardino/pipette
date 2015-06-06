@@ -14,11 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 import allauth.urls
+import django.contrib.auth.views
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.views.generic.base import TemplateView
 from django.contrib.auth.models import User
+from django.views.generic.base import TemplateView
 from rest_framework import routers, serializers, viewsets
+
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -37,6 +39,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/v1/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^accounts/logout/$', django.contrib.auth.views.logout, {'next_page': '/'}),
     url(r'^accounts/', include(allauth.urls)),
     url(r'^$', TemplateView.as_view(template_name='index.html')),
     url(r'^accounts/profile/$', TemplateView.as_view(template_name='profile.html')),
