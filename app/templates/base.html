@@ -1,0 +1,38 @@
+5<!DOCTYPE html>
+{% load static %}
+
+{% if user.is_authenticated %}
+<html ng-app="pipette">
+{% else %}
+<html>
+{% endif %}
+  <head>
+    <title>{% block head_title %}{% endblock %}</title>
+    {% block extra_head %}
+    {% endblock %}
+    <link  type="text/css" rel="stylesheet" href='{% static 'bootstrap/dist/css/bootstrap.min.css' %}' >
+    <link  type="text/css" rel="stylesheet" href='{% static 'font-awesome/css/font-awesome.min.css' %}' >
+  </head>
+  <body>
+    {% block body %}
+    {% block content %}
+    {% endblock %}
+    {% endblock %}
+    
+    {% block extra_body %}
+    {% endblock %}
+
+    {% if user.is_authenticated %}
+    <script type="text/javascript" src='{% static 'angularjs/angular.js' %}'></script>
+    <script type="text/javascript" src='{% static 'angular-bootstrap/ui-bootstrap-tpls.js' %}'></script>
+    <script type="text/javascript" src='{% static 'angular-route/angular-route.js' %}'></script>
+    <script type="text/javascript" src='{% static 'angular-sanitize/angular-sanitize.js' %}'></script>
+    <script type="text/javascript" src='{% static 'angular-cookies/angular-cookies.js' %}'></script>
+    <script type="text/javascript" src='{% static 'angular-resource/angular-resource.js' %}'></script>
+    <script type="text/javascript" src='{% static 'app/app.js' %}'></script>
+    {% else %}
+    {% endif %}
+    
+    
+  </body>
+</html>
