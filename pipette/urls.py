@@ -17,10 +17,26 @@ import allauth.urls
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic.base import TemplateView
-###from . import views
+from django.contrib.auth.models import User
+from rest_framework import routers, serializers, viewsets
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ('url', 'username', 'email', 'is_staff')
+
+# ViewSets define the view behavior.
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/v1/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^accounts/', include(allauth.urls)),
     url(r'^$', TemplateView.as_view(template_name='index.html')),
     url(r'^accounts/profile/$', TemplateView.as_view(template_name='profile.html')),
